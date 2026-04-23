@@ -32,15 +32,12 @@ async def on_message(message):
         # Replace the domain with vxtiktok.com for a better embed
         fixed_url = original_url.replace("tiktok.com", "tnktok.com")
         
-        # Send the fixed link
-        # Mentioning the user makes it clear who shared it
-        await message.reply(f"Fixed that for you! 🎬\n{fixed_url}", mention_author=False)
-        
-        # Optional: Remove the embed from the original message to save space
+        # Delete the original message and send the fixed link
         try:
             await message.edit(suppress=True)
+            await message.channel.send(f"{message.author.mention}: Fixed that for you! 🎬\n{fixed_url}")
         except discord.Forbidden:
-            print("Missing 'Manage Messages' permission to suppress original embed.")
+            print("Missing 'Manage Messages' permission to delete message.")
 
     # Check if message contains an Instagram link
     match = re.search(INSTAGRAM_REGEX, message.content)
@@ -51,26 +48,17 @@ async def on_message(message):
         # Replace the domain with kkclip.com for a better embed
         fixed_url = original_url.replace("instagram.com", "kkclip.com")
         
-        # Send the fixed link
-        # Mentioning the user makes it clear who shared it
-        await message.reply(f"Fixed that for you! 🎬\n{fixed_url}", mention_author=False)
-        
-        # Optional: Remove the embed from the original message to save space
+        # Delete the original message and send the fixed link
         try:
-                await message.edit(suppress=True)
+            await message.edit(suppress=True)
+            await message.channel.send(f"{message.author.mention}: Fixed that for you! 🎬\n{fixed_url}")
         except discord.Forbidden:
-                print("Missing 'Manage Messages' permission to suppress original embed.")
+            print("Missing 'Manage Messages' permission to delete message.")
 
-# --- FOR THIS SECTION IF YOU ARE NOT RUNNING PYTHON IN ENV UNCOMMENT AND INSERT DISCORD TOKEN BELOW ---
-
-#TOKEN = 'INSERT-DISCORD-TOKEN'
-
-# --- IF YOU ARE RUNNING WITHIN AN ENVIRONMENT UNCOMMENT THE CODE BELOW ---
-
-#token = os.getenv('INSERT-DISCORD_TOKEN')
-#if not token:
-#    print("Error: DISCORD_TOKEN environment variable not set.")
-#    exit(1)
+token = os.getenv('DISCORD_TOKEN')
+if not token:
+    print("Error: DISCORD_TOKEN environment variable not set.")
+    exit(1)
 
 if __name__ == "__main__":
-    client.run(TOKEN)
+    client.run(token)
